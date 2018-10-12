@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Web launcher configuration</title>
+    <style type="text/css">
+
+body {
+  background-color: #48494c;
+  color:  #c6c8d1;
+    }
+input {
+  height: 20px;
+  border: 0;
+  margin: 3px;
+  padding-left: 2px;
+  color: black;
+  background-color: #b5b7bf;
+    }
+button {
+  width: 116px;
+  display: inline-block;
+  color: #c6c8d1;
+  text-decoration: none;
+  user-select: none;
+  outline: none;
+  border: 2px solid;
+  padding: 5px;
+  border-radius: 1px;
+  transition: 0.2s;
+  background: rgba(255, 255, 255, 0.1);
+}
+button:hover { background: rgba(255,255,255,.2); }
+</style>
+</head>
+  <body>
+  <ul>
+  <li>Screen 1  <input type="text" id="screen1" size="45" value="URL patch to app"></li>
+  <li>Screen 2  <input type="text" id="screen2" size="45" value="URL patch to app"></li>
+  <li>Screen 3  <input type="text" id="screen3" size="45" value="URL patch to app"></li>
+  <li>Screen 4  <input type="text" id="screen4" size="45" value="URL patch to app"></li>
+  <li>Screen 5  <input type="text" id="screen5" size="45" value="URL patch to app"></li>
+  <li>Screen 6  <input type="text" id="screen6" size="45" value="URL patch to app"></li>
+  <li>Screen 7  <input type="text" id="screen7" size="45" value="URL patch to app"></li>
+  </ul>
+  <!--	<button id='out'>Submit (console.log)</button> -->
+  <button id='saveConfig'>Save config</button>
+  <button id='restart'>Restart</button>
+  <button id='close'>Close app</button>
+  <button id='dev'>Dev tools</button>
+  <br>
+<!-- fix jquery for electron based launcher
+        insert this in head index.html your app
+        <script>window.$ = window.jQuery = require('jquery');</script>-->
+<script>
+ var ipcRenderer = require('electron').ipcRenderer;
+ document.getElementById('restart').addEventListener('click',function() {
+  ipcRenderer.send('restart_signal', 'restart_signal');
+ });
+ document.getElementById('close').addEventListener('click',function() {
+  ipcRenderer.send('close_signal', 'restart_signal');
+ });
+ document.getElementById('dev').addEventListener('click',function() {
+  ipcRenderer.send('dev_signal', 'dev_signal');
+ });
+	//////////////////////////////////////////////////////////////////////////////
+	var os = require('os');
+	os.userInfo().username
+	var username = os.userInfo().username
+	//console.log(username);
+	const file = "c:/Users/"+username+"/AppData/Roaming/mswl_config.json";
+	//////////////////////////////////////////////////////////////////////////////
+	var fs = require("fs");
+	var config = fs.readFileSync(file, "utf8");
+	config = JSON.parse(config);
+	document.getElementById('screen1').value = ( config.screen1 );
+	document.getElementById('screen2').value = ( config.screen2 );
+	document.getElementById('screen3').value = ( config.screen3 );
+	document.getElementById('screen4').value = ( config.screen4 );
+	document.getElementById('screen5').value = ( config.screen5 );
+	document.getElementById('screen6').value = ( config.screen6 );
+	document.getElementById('screen7').value = ( config.screen7 );
+/////////////////////////////////////////////////////////////////////////////////
+// Hook up the submit button to log to the console
+//    document.getElementById('out').addEventListener('click',function() {
+    // Get the value from the editor
+//		var text1 = document.getElementById("screen1").value;
+//		var text2 = document.getElementById("screen2").value;
+//		var text3 = document.getElementById("screen3").value;
+//		var text4 = document.getElementById("screen4").value;
+//		var text5 = document.getElementById("screen5").value;
+//		var text6 = document.getElementById("screen6").value;
+//		var text7 = document.getElementById("screen7").value;
+		// Set value from editor to json massive
+//		config.screen1 = text1;
+//		config.screen2 = text2;
+//		config.screen3 = text3;
+//		config.screen4 = text4;
+//		config.screen5 = text5;
+//		config.screen6 = text6;
+//		config.screen7 = text7;
+    // Out
+//		console.log(JSON.stringify(config));
+//  });
+//////////////////////////////////////////////////////////////////////////////////
+	   // Hook up the save button to file
+    document.getElementById('saveConfig').addEventListener('click',function() {
+    // Get the value from the editor
+		var text1 = document.getElementById("screen1").value;
+		var text2 = document.getElementById("screen2").value;
+		var text3 = document.getElementById("screen3").value;
+		var text4 = document.getElementById("screen4").value;
+		var text5 = document.getElementById("screen5").value;
+		var text6 = document.getElementById("screen6").value;
+		var text7 = document.getElementById("screen7").value;
+		// Set value from editor to json massive
+		config.screen1 = text1;
+		config.screen2 = text2;
+		config.screen3 = text3;
+		config.screen4 = text4;
+		config.screen5 = text5;
+		config.screen6 = text6;
+		config.screen7 = text7;
+		// Write file
+		fs.writeFile(file, JSON.stringify(config), (err) => {
+		if (err) {
+        console.error(err);
+        return;
+		};
+		console.log("File has been created");
+		});
+	});
+///////////////////////////////////////////////////////////////////////////////////
+    </script>
+  </body>
+</html>
+<!-- 
+autor @Toshino_Kyoko
+telegram  https://t.me/Toshino_Kyoko
+e-mail llortiel@gmail.com
+-->

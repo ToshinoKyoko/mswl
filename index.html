@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style type="text/css">
+* {
+  margin: 0;
+  padding: 0;
+}
+  .main {
+  color: gray;
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  background: url(back.jpeg);
+}
+  .ctrl {
+  position: absolute;
+  width: 250px;
+  top: 850px;
+  left: 1650px;
+}
+  .info {
+    position: absolute;
+    width: 1900px;
+    top: 1035px;
+    left: 10px;
+    color: white;
+  }
+button {
+  width: 170px;
+  display: inline-block;
+  color: gray;
+  font-weight: 700;
+  text-decoration: none;
+  user-select: none;
+  padding: .5em 2em;
+  outline: none;
+  border: 2px solid;
+  border-radius: 1px;
+  transition: 0.2s;
+  background: rgba(255, 255, 255, 0.1);
+}
+button:hover { background: rgba(255,255,255,.2); }
+</style>
+  </head>
+  <body>
+  <div class='main'>
+    <div class='ctrl'>
+    <ul>
+      <li><button id='settings'>Settings</button> Ctrl+S</li><br>
+      <li><button id='restart'>Restart</button> Ctrl+R</li><br>
+      <li><button id='close'>Close application</button> Ctrl+Q</li><br>
+      <li><button id='dev'>Dev tools</button> Ctrl+D</li>
+    </ul>
+    </div>
+    <div class='info'>
+      Fix jquery for electron based launcher.<br>
+      Insert this code in head index.html your web app: <code>&lt;script&gt;window.$ = window.jQuery = require('jquery');&lt;/script&gt;</code>
+    </div>
+  </div>
+  <script>
+   var ipcRenderer = require('electron').ipcRenderer;
+   document.getElementById('restart').addEventListener('click',function() {
+    ipcRenderer.send('restart_signal', 'restart_signal');
+   });
+   document.getElementById('close').addEventListener('click',function() {
+    ipcRenderer.send('close_signal', 'restart_signal');
+   });
+   document.getElementById('settings').addEventListener('click',function() {
+    ipcRenderer.send('settings_signal', 'settings_signal');
+   });
+   document.getElementById('dev').addEventListener('click',function() {
+    ipcRenderer.send('dev_signal', 'dev_signal');
+   });
+</script>
+ </body>
+ </html>
+ <!--
+ autor @Toshino_Kyoko
+ telegram  https://t.me/Toshino_Kyoko
+ e-mail llortiel@gmail.com
+ -->
